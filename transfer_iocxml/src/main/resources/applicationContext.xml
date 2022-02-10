@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--跟标签beans，里面配置一个又一个的bean子标签，每一个bean子标签都代表一个类的配置-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="accountDao" class="com.lagou.edu.dao.impl.JdbcAccountDaoImpl" scope="singleton" init-method="init" destroy-method="destory">
+        <constructor-arg name="connectionUtils" ref="connectionUtils"/>
+        <constructor-arg name="name" value="zhangsan"/>
+        <constructor-arg name="sex" value="1"/>
+        <constructor-arg name="money" value="100.6"/>
+    </bean>
+    <bean id="transferService" class="com.lagou.edu.service.impl.TransferServiceImpl">
+        <property name="AccountDao" ref="accountDao"/>
+    </bean>
+    <!--事务管理器-->
+    <bean id="transactionManager" class="com.lagou.edu.utils.TransactionManager">
+        <property name="ConnectionUtils" ref="connectionUtils"/>
+    </bean>
+    <!--Spring ioc 实例化Bean的三种方式-->
+    <!--方式一：使用无参构造器（推荐）-->
+    <bean id="connectionUtils" class="com.lagou.edu.utils.ConnectionUtils"></bean>
+
+    <bean id="accountPojo" class="com.lagou.edu.pojo.Account" lazy-init="true"/>
+</beans>
